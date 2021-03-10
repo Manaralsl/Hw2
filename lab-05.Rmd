@@ -101,15 +101,18 @@ Knit, *commit, and push your changes to GitHub with an appropriate commit messag
 ## But of those US-based Nobel laureates, many were born in other countries
 
 ```{r}
-nobel_living_science %>% filter(born_country_us == "USA") %>% count(born_country_us)
+nobel_living_science %>%
+    ggplot(aes(x = country_us,y=category, fill =category)) +
+   geom_bar(stat = "identity", position = "dodge") + 
+   coord_flip()
 ```
 
-
+ans:243
 4.  Create a new variable called `born_country_us` that has the value `"USA"` if the laureate is born in the US, and `"Other"` otherwise.
     How many of the winners are born in the US?
-ans:243
-```{r}
 
+```{r}
+nobel_living_science%>% filter(born_country_us == "USA")%>% count(born_country_us)
 ```
 
 Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.d*
@@ -124,20 +127,23 @@ Knit, *commit, and push your changes to GitHub with an appropriate commit messag
     
 
 ```{r}
-
+nobel_living_science <- nobel_living_science %>% mutate( born_country_us = if_else(born_country == "USA", "USA", "Other"))
+nobel_living_science %>%ggplot(aes(x = country_us,y=born_country_us, fill = category)) + geom_bar(stat = "identity", position = "dodge", orientation="horizontal")
 ```
 
 Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
-
+yes , because in buzzfeed  we analyzing the data to search for more understanding the data and get information form it we go deep and deep and make a lot of filtrations to understanding the data
 
 6.  In a single pipeline, filter for laureates who won their prize in the US, but were born outside of the US, and then create a frequency table (with the `count()` function) for their birth country (`born_country`) and arrange the resulting data frame in descending order of number of observations for each country. Which country is the most common?
 
 
 ```{r}
-
+nobel_living_science %>%               filter(born_country_us=="Other",country_us=="USA")%>%count(born_country) %>%arrange(desc(n))
 ```
-
+  
+  Germany And United kingdom
+  
 Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you're happy with the final state of your work.*
 
 
